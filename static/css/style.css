@@ -25,14 +25,13 @@ h1{
 }
 
 .character{
-    width: 23%;
-    height: 196px;
+    max-width: 23%;
     margin: 5px;
     border-radius: 10px;
     cursor: pointer;
+    display: flex;
     position: relative;
-    z-index: 1;
-    transition: 0.5s ease-in;
+    transition: 0.3s ease-in;
 }
 
 .character img{
@@ -47,7 +46,7 @@ h1{
     position: absolute;
     bottom: 0;
     left: 0;
-    background-color:rgba(0, 0, 0, 0.6);
+    background-color:rgba(0, 0, 0, 0.8);
     border-radius: 0 0 10px 10px;
     opacity: 0;
     transition: 0.3s ease-in;
@@ -59,17 +58,28 @@ h1{
     color: #fff;
 }
 
+.character p{
+    font-size: 13px;
+    font-weight: 400;
+    color: #fff;
+}
+
 .container:hover .character{
     opacity: 0.3;
 }
 
 .container:hover .character:hover{
+    /* height: 350px; */
     opacity: 1;
     transform: scale(1.1);
     z-index: 10;
     margin: 15px;
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(120,120,120,1);
+    -moz-box-shadow: 0px 0px 15px 0px rgba(120,120,120,1);
+    box-shadow: 0px 0px 15px 0px rgba(120,120,120,1);
 }
 
 .character:hover .container-name{
     opacity: 1;
+    transform: translate(0, 75%);
 }
