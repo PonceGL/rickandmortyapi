@@ -1,14 +1,16 @@
 const API = 'https://rickandmortyapi.com/api/character/';
+const API_LOCATION = 'https://rickandmortyapi.com/api/location/';
+const container = document.getElementById('container');
 
-const fetchData = (url_api) => {
+const fetchData = (url_api, api_dimension) => {
     return new Promise((resolve, reject) => {
         const xhttp = new XMLHttpRequest();
-        xhttp.open('GET', url_api, true); // true es por defecto y activa el asincronismo
+        xhttp.open('GET', url_api, api_dimension, true); // true es por defecto y activa el asincronismo
         xhttp.onreadystatechange = (() => {
             if(xhttp.readyState === 4){ // solicitud finalizada y respuesta lista
                 (xhttp.status === 200) // if ternario
                     ? resolve(JSON.parse(xhttp.responseText))
-                    : reject(new Error('Error ' + url_api))
+                    : reject(new Error('Error ' + url_api, api_dimension))
             }
         })
     
@@ -16,23 +18,28 @@ const fetchData = (url_api) => {
     });
 }
 
-fetchData(API)
-    .then(data => {
-        console.log(data.info.count);
-        return fetchData(`${API}${data.results[0].id}`)
-    })
-    .then(data => {
-        console.log(data.name);
-        console.log(data.status);
-        console.log(data.species);
-        console.log(data.type);
-        console.log(data.gender);
-        console.log(data.origin.name);
-        console.log(data.image);
+const anotherFunction = async (url_api, api_dimension) => {
+    try{
+        const data = await fetchData(url_api, api_dimension);
+        const dimensions = await fetchData(api_dimension);
         
-        return fetchData(data.origin.url)
-    })
-    .then(data => {
-        console.log(data.dimension);
-    })
-    .catch(err => console.error(err));
+        function print(){
+            for (let i = 0; i < data.results.length; i++) {
+                container.innerHTML += `
+                    <div class="character">
+                        <img src="${data.results[i].image}" alt="">
+                        <div class="container-name">
+                            <h2>${data.results[i].name}</h2>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        print();
+    
+    }catch(error){
+        console.error(error)
+    }
+}
+
+anotherFunction(API, API_LOCATION);
